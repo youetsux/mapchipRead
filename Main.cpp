@@ -6,6 +6,35 @@ const Size WORLD_SIZE{ 256 * 2, 192 * 2 };
 const SizeF CHR_RENDER_SIZE{ 32, 32 };
 constexpr Size WORLD_CHIP_SIZE{ 16,12 }; //ちっぷがわーるどじょうにたてよこなんこずつならんでいるか
 
+//カメラの中心位置（ワールド座標で指定）
+Vec2 cameraPos{ SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2 };
+//カメラの原点位置（ワールド座標で指定）
+Vec2 camaraOrigin{ cameraPos - SCREEN_SIZE / 2.0 };
+
+RectF cameraRect{ camaraOrigin,SCREEN_SIZE };//左上がカメラ原点、幅高さがスクリーンサイズになる矩形
+
+
+void SetCameraPos(Vec2 _pos)
+{
+	cameraPos = _pos;
+	camaraOrigin = { cameraPos - SCREEN_SIZE / 2.0 };
+	cameraRect = { camaraOrigin,SCREEN_SIZE };
+}
+Vec2 GetScreenPosFromWorldPos(Vec2 _pos)
+{
+	return { _pos - camaraOrigin };
+}
+
+void UpdateCamera() //アップデートと言いながら、マップからはみ出ないようにしているだけ
+{
+	if (cameraRect.x <= 0.0f)
+		SetCameraPos({ SCREEN_SIZE.x / 2.0f , cameraPos.y });
+		//cameraPos.x = SCREEN_SIZE.x / 2.0f;
+	if (cameraRect.y <= 0.0f)
+		SetCameraPos({ cameraPos.x , SCREEN_SIZE.y / 2.0f });
+		//cameraPos.y = SCREEN_SIZE.y / 2.0f;
+
+}
 
 void Main()
 {
@@ -43,12 +72,39 @@ void Main()
 
 	while (System::Update())
 	{
+		const double MoveSpeed = 3.0;
+		if (KeyUp.pressed())
+		{
+			//SetCameraPos({ SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2 });
+			SetCameraPos(cameraPos + MoveSpeed * Vec2{ 0, -1 });
+		}
+		if (KeyRight.pressed())
+		{
+			//SetCameraPos({ SCREEN_SIZE.x + SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2 });
+			SetCameraPos(cameraPos + MoveSpeed * Vec2{ 1, 0 });
+		}
+		if (KeyLeft.pressed())
+		{
+			//SetCameraPos({ SCREEN_SIZE.x / 2, SCREEN_SIZE.y +SCREEN_SIZE.y / 2 });
+			SetCameraPos(cameraPos + MoveSpeed * Vec2{ -1, 0 });
+		}
+		if (KeyDown.pressed())
+		{
+			//SetCameraPos({ SCREEN_SIZE.x + SCREEN_SIZE.x / 2, SCREEN_SIZE.y + SCREEN_SIZE.y / 2 });
+			SetCameraPos(cameraPos + MoveSpeed * Vec2{ 0, 1 });
+		}
+		UpdateCamera();
+
 		for (auto j = 0; j < WORLD_CHIP_SIZE.y; j++)
 		{
 			for (auto i = 0; i < WORLD_CHIP_SIZE.x; i++)
 			{
+				//配列になってるオブジェクトのワールド座標
 				Vec2 wPos{ i * CHR_RENDER_SIZE.x, j * CHR_RENDER_SIZE.y };
-				mapchip(mapRects[CHR_MAP[j][i]]).draw(wPos);
+				//スクリーン座標に変換
+				Vec2 scrPos = GetScreenPosFromWorldPos(wPos);
+
+				mapchip(mapRects[CHR_MAP[j][i]]).draw(scrPos);
 			}
 		}
 	}
