@@ -1,6 +1,12 @@
 ﻿#include "camera2D.h"
 
 namespace CAMERA2D {
+	//カメラの中心位置（ワールド座標で指定）
+	Vec2 cameraPos{ SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2 };
+	//カメラの原点位置（ワールド座標で指定）
+	Vec2 camaraOrigin{ cameraPos - SCREEN_SIZE / 2.0 };
+	RectF cameraRect{ camaraOrigin,SCREEN_SIZE };//左上がカメラ原点、幅高さがスクリーンサイズになる矩形
+
 	void SetCameraPos(Vec2 _pos)
 	{
 		cameraPos = _pos;
