@@ -18,7 +18,5 @@ namespace CAMERA2D {
 
 	Vec2 GetScreenPosFromWorldPos(Vec2 _pos);
 
-
 	void UpdateCamera(); //アップデートと言いながら、マップからはみ出ないようにしているだけ
-
 }

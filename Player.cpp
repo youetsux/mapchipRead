@@ -6,7 +6,7 @@
 Player::Player()
 	:GameChara()
 {
-	pos_ = Scene::Center()/2;
+	pos_ = Scene::Center();
 	speed_ = PLAYER_MOVE_SPEED;
 	tex_ = TextureAsset(U"PLAYER");
 	SetCharaRect(PLAYER_RECT_SIZE);
@@ -45,38 +45,27 @@ void Player::Update()
 	//UP,LEFT,DOWN,RIGHT,NONE
 	Vec2 DIRS[5]{ {0,-1},{-1,0},{0,1},{1,0},{0,0} };
 	direction d = GetDirection();
-	Vec2 mdir = DIRS[NONE];
-	switch (d)
-	{
-	case UP:
-		mdir = DIRS[UP];
-		break;
-	case LEFT:
-		mdir = DIRS[LEFT];
-		break;
-	case RIGHT:
-		mdir = DIRS[RIGHT];
-		break;
-	case DOWN:
-		mdir = DIRS[DOWN];
-		break;
-	default:
-		mdir = DIRS[NONE];
-		break;
-	}
-
+	static Vec2 mdir = DIRS[NONE];
+	if(d!= NONE)
+		mdir= DIRS[d];
+	
 	moveDir_ = mdir;
+	imgDir_ = d;
 	pos_ = pos_ + speed_ * Scene::DeltaTime() * moveDir_;
 	SetCharaRect(PLAYER_RECT_SIZE);
-	CAMERA2D::SetCameraPos(pos_);
-	CAMERA2D::UpdateCamera();
+	
 }
 
 void Player::Draw()
 {
+	static double imgRot = 0;
+	double rotAngle[5]{ 180, 90, 0, -90, 0 };
+	if(imgDir_ != NONE)
+		imgRot = rotAngle[imgDir_];
+
 	if (isAlive_) {
 		Vec2 renderPos = CAMERA2D::GetScreenPosFromWorldPos(pos_);
-		tex_.resized(PLAYER_CHR_SIZE).drawAt(renderPos);
+		tex_.resized(PLAYER_CHR_SIZE).rotated(ToRadians(imgRot)).drawAt(renderPos);
 		RectF renderRect = { CAMERA2D::GetScreenPosFromWorldPos(rect_.pos) , PLAYER_RECT_SIZE };
 		renderRect.drawFrame(1, 1, Palette::Red);
 	}

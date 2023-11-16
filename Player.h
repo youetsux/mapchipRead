@@ -18,6 +18,7 @@ enum direction
 class Player :
     public GameChara
 {
+	direction imgDir_;//画像の向き
 public:
 	Player();
 	~Player() {}//解放処理ここでやる？
@@ -26,6 +27,5 @@ public:
 	direction GetDirection();
 	void Update() override;
 	void Draw() override;
-	Vec2 RenderPos;
 };
 
