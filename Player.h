@@ -2,7 +2,6 @@
 #include "GameChara.h"
 #include <vector>
 
-
 using std::vector;
 
 const SizeF PLAYER_CHR_SIZE{ 32, 32 }; //がぞうさいず

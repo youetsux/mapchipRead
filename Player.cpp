@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Player.h"
+#include "camera2D.h"
 
 
 Player::Player()
@@ -41,8 +42,8 @@ direction Player::GetDirection()
 
 void Player::Update()
 {   //寿命短い変数は名前も少し適当でいいよ
-	//UP,RIGHT,LEFT,DOWN,RIGHT,NONE
-	Vec2 DIRS[5]{ {0,-1},{1,0},{0,1},{1,0},{0,0} };
+	//UP,LEFT,DOWN,RIGHT,NONE
+	Vec2 DIRS[5]{ {0,-1},{-1,0},{0,1},{1,0},{0,0} };
 	direction d = GetDirection();
 	Vec2 mdir = DIRS[NONE];
 	switch (d)
@@ -67,13 +68,17 @@ void Player::Update()
 	moveDir_ = mdir;
 	pos_ = pos_ + speed_ * Scene::DeltaTime() * moveDir_;
 	SetCharaRect(PLAYER_RECT_SIZE);
+	CAMERA2D::SetCameraPos(pos_);
+	CAMERA2D::UpdateCamera();
 }
 
 void Player::Draw()
 {
 	if (isAlive_) {
-		tex_.resized(PLAYER_CHR_SIZE).drawAt(pos_);
-		rect_.drawFrame(1, 1, Palette::Red);
+		Vec2 renderPos = CAMERA2D::GetScreenPosFromWorldPos(pos_);
+		tex_.resized(PLAYER_CHR_SIZE).drawAt(renderPos);
+		RectF renderRect = { CAMERA2D::GetScreenPosFromWorldPos(rect_.pos) , PLAYER_RECT_SIZE };
+		renderRect.drawFrame(1, 1, Palette::Red);
 	}
 }
 

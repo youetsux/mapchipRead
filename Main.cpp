@@ -5,11 +5,12 @@
 
 
 
-
+const SizeF CHR_RENDER_SIZE{ 32, 32 };
+constexpr Size WORLD_CHIP_SIZE{ 16,12 }; //ちっぷがわーるどじょうにたてよこなんこずつならんでいるか
 
 void Main()
 {
-	TextureAsset::Register(U"PLAYER", U"SpaceShips\\C-09.png");
+	TextureAsset::Register(U"PLAYER", U"SpaceShips\\C-10.png");
 	Window::Resize(SCREEN_SIZE);
 	// 背景の色を設定する | Set the background color
 	Scene::SetBackground(ColorF{ 0.6, 0.8, 0.7 });
