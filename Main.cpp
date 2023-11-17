@@ -3,10 +3,23 @@
 #include "Player.h"
 #include "camera2D.h"
 
+std::array< std::array<int, WORLD_CHIP_SIZE.x>, WORLD_CHIP_SIZE.y>
+CHR_MAP
+{ {
+	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+	{1,1,0,1,1,1,1,0,0,1,1,1,1,1,1,1},
+	{1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1},
+	{1,0,0,0,2,0,0,0,0,0,0,0,0,0,1,1},
+	{1,0,0,0,3,3,2,0,0,0,0,0,2,0,1,1},
+	{1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
+	{1,1,0,3,0,0,0,0,0,0,0,0,0,0,1,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
+	{1,0,0,2,0,0,0,0,0,0,0,0,3,0,1,1},
+	{1,0,0,0,0,0,0,1,1,0,0,0,2,0,0,1},
+	{1,0,2,0,0,2,0,1,1,2,0,0,0,0,1,1},
+	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+} };
 
-
-const SizeF CHR_RENDER_SIZE{ 32, 32 };
-constexpr Size WORLD_CHIP_SIZE{ 16,12 }; //ちっぷがわーるどじょうにたてよこなんこずつならんでいるか
 
 void Main()
 {
@@ -15,22 +28,7 @@ void Main()
 	// 背景の色を設定する | Set the background color
 	Scene::SetBackground(ColorF{ 0.6, 0.8, 0.7 });
 
-	std::array< std::array<int, WORLD_CHIP_SIZE.x>, WORLD_CHIP_SIZE.y>
-		CHR_MAP
-	{ {
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,0,1,1,1,1,0,0,1,1,1,1,1,1,1},
-		{1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1},
-		{1,0,0,0,2,0,0,0,0,0,0,0,0,0,1,1},
-		{1,0,0,0,3,3,2,0,0,0,0,0,2,0,1,1},
-		{1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
-		{1,1,0,3,0,0,0,0,0,0,0,0,0,0,1,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
-		{1,0,0,2,0,0,0,0,0,0,0,0,3,0,1,1},
-		{1,0,0,0,0,0,0,1,1,0,0,0,2,0,0,1},
-		{1,0,2,0,0,2,0,1,1,2,0,0,0,0,1,1},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-	} };
+
 
 	TextureAsset::Register(U"MAPCHIP", U"bg.png");
 
@@ -69,9 +67,7 @@ void Main()
 		//	//SetCameraPos({ SCREEN_SIZE.x + SCREEN_SIZE.x / 2, SCREEN_SIZE.y + SCREEN_SIZE.y / 2 });
 		//	CAMERA2D::SetCameraPos(CAMERA2D::cameraPos + MoveSpeed * Vec2{ 0, 1 }*Scene::DeltaTime());
 		//}
-		player->Update();
-		CAMERA2D::SetCameraPos(player->GetPosition());
-		CAMERA2D::UpdateCamera();
+		
 
 		for (auto j = 0; j < WORLD_CHIP_SIZE.y; j++)
 		{
@@ -85,7 +81,9 @@ void Main()
 				mapchip(mapRects[CHR_MAP[j][i]]).draw(scrPos);
 			}
 		}
-
+		player->Update();
+		CAMERA2D::SetCameraPos(player->GetPosition());
+		CAMERA2D::UpdateCamera();
 		player->Draw();
 	}
 }

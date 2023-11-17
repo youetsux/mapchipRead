@@ -2,11 +2,18 @@
 #include "Player.h"
 #include "camera2D.h"
 
+extern std::array< std::array<int, WORLD_CHIP_SIZE.x>, WORLD_CHIP_SIZE.y>
+CHR_MAP;
+
+
+void Player::CheckObstacles()
+{
+}
 
 Player::Player()
 	:GameChara()
 {
-	pos_ = Scene::Center();
+	pos_ = SCREEN_SIZE/2;
 	speed_ = PLAYER_MOVE_SPEED;
 	tex_ = TextureAsset(U"PLAYER");
 	SetCharaRect(PLAYER_RECT_SIZE);
@@ -46,26 +53,59 @@ void Player::Update()
 	Vec2 DIRS[5]{ {0,-1},{-1,0},{0,1},{1,0},{0,0} };
 	direction d = GetDirection();
 	static Vec2 mdir = DIRS[NONE];
-	if(d!= NONE)
-		mdir= DIRS[d];
-	
+	if (d != NONE)
+		mdir = DIRS[d];
+
 	moveDir_ = mdir;
 	imgDir_ = d;
+	//Vec2 tmp = pos_;
 	pos_ = pos_ + speed_ * Scene::DeltaTime() * moveDir_;
+	for (auto j = 0; j < WORLD_CHIP_SIZE.y; j++)
+	{
+		for (auto i = 0; i < WORLD_CHIP_SIZE.x; i++){
+			if (CHR_MAP[j][i] == 1) {
+
+				Vec2 wPos{ i * CHR_RENDER_SIZE.x, j * CHR_RENDER_SIZE.y };
+				RectF obst{ wPos, CHR_RENDER_SIZE };
+				//ぶつかったか確認して座標で戻す方がいいかもね。
+				if (pos_.x + CHR_RENDER_SIZE.x / 2 > obst.pos.x)
+					Print << U"HIT";
+			}
+			//	//pos_.x = obst.pos.x - CHR_RENDER_SIZE.x;
+			//if (pos_.y - CHR_RENDER_SIZE.y / 2 > obst.pos.y)
+			//	Print << U"HIT";
+			//	//pos_.x = obst.pos.y - CHR_RENDER_SIZE.y;
+			//if (pos_.x - CHR_RENDER_SIZE.x / 2 < obst.pos.x + obst.w / 2)
+			//	Print << U"HIT";
+			//	//pos_.x = obst.pos.x + obst.w / 2 + CHR_RENDER_SIZE.x / 2;
+			//if (pos_.y + CHR_RENDER_SIZE.y / 2 < obst.pos.y - obst.h / 2)
+			//	Print << U"HIT";
+				//pos_.y = obst.pos.y + obst.h / 2 + CHR_RENDER_SIZE.y / 2;
+		}
+	}
+	//画面外に出てないかチェック
+	if (pos_.x - CHR_RENDER_SIZE.x / 2 <= 0)
+		pos_.x = CHR_RENDER_SIZE.x / 2;
+	if (pos_.y - CHR_RENDER_SIZE.y / 2 <= 0)
+		pos_.y = CHR_RENDER_SIZE.y / 2;
+	if (pos_.x + CHR_RENDER_SIZE.x / 2 > WORLD_SIZE.x)
+		pos_.x = WORLD_SIZE.x - CHR_RENDER_SIZE.x / 2;
+	if (pos_.y + CHR_RENDER_SIZE.y / 2 > WORLD_SIZE.y)
+		pos_.y = WORLD_SIZE.y - CHR_RENDER_SIZE.y / 2;
 	SetCharaRect(PLAYER_RECT_SIZE);
-	
 }
 
 void Player::Draw()
 {
 	static double imgRot = 0;
 	double rotAngle[5]{ 180, 90, 0, -90, 0 };
-	if(imgDir_ != NONE)
+	Vec2 renderMargin{ CHR_RENDER_SIZE / 2 };
+	if (imgDir_ != NONE)
 		imgRot = rotAngle[imgDir_];
 
 	if (isAlive_) {
-		Vec2 renderPos = CAMERA2D::GetScreenPosFromWorldPos(pos_);
-		tex_.resized(PLAYER_CHR_SIZE).rotated(ToRadians(imgRot)).drawAt(renderPos);
+		Vec2 renderPos = CAMERA2D::GetScreenPosFromWorldPos(pos_ - renderMargin);
+		tex_.resized(PLAYER_CHR_SIZE).rotated(ToRadians(imgRot)).draw(renderPos);
 		RectF renderRect = { CAMERA2D::GetScreenPosFromWorldPos(rect_.pos) , PLAYER_RECT_SIZE };
 		renderRect.drawFrame(1, 1, Palette::Red);
 	}
