@@ -20,7 +20,6 @@ class Player :
     public GameChara
 {
 	direction imgDir_;//画像の向き
-	void CheckObstacles();
 public:
 	Player();
 	~Player() {}//解放処理ここでやる？

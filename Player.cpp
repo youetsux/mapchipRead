@@ -5,11 +5,6 @@
 extern std::array< std::array<int, WORLD_CHIP_SIZE.x>, WORLD_CHIP_SIZE.y>
 CHR_MAP;
 
-
-void Player::CheckObstacles()
-{
-}
-
 Player::Player()
 	:GameChara()
 {
@@ -58,29 +53,23 @@ void Player::Update()
 
 	moveDir_ = mdir;
 	imgDir_ = d;
-	//Vec2 tmp = pos_;
+	Vec2 tmp = pos_;
 	pos_ = pos_ + speed_ * Scene::DeltaTime() * moveDir_;
+	SetCharaRect(PLAYER_RECT_SIZE);
 	for (auto j = 0; j < WORLD_CHIP_SIZE.y; j++)
 	{
 		for (auto i = 0; i < WORLD_CHIP_SIZE.x; i++){
 			if (CHR_MAP[j][i] == 1) {
 
-				Vec2 wPos{ i * CHR_RENDER_SIZE.x, j * CHR_RENDER_SIZE.y };
+				Vec2 wPos{ i * CHR_RENDER_SIZE.x, j * CHR_RENDER_SIZE.y  };
 				RectF obst{ wPos, CHR_RENDER_SIZE };
-				//ぶつかったか確認して座標で戻す方がいいかもね。
-				if (pos_.x + CHR_RENDER_SIZE.x / 2 > obst.pos.x)
+
+				if (IsMyRectHit(obst))
+				{
 					Print << U"HIT";
+					pos_ = tmp;
+				}
 			}
-			//	//pos_.x = obst.pos.x - CHR_RENDER_SIZE.x;
-			//if (pos_.y - CHR_RENDER_SIZE.y / 2 > obst.pos.y)
-			//	Print << U"HIT";
-			//	//pos_.x = obst.pos.y - CHR_RENDER_SIZE.y;
-			//if (pos_.x - CHR_RENDER_SIZE.x / 2 < obst.pos.x + obst.w / 2)
-			//	Print << U"HIT";
-			//	//pos_.x = obst.pos.x + obst.w / 2 + CHR_RENDER_SIZE.x / 2;
-			//if (pos_.y + CHR_RENDER_SIZE.y / 2 < obst.pos.y - obst.h / 2)
-			//	Print << U"HIT";
-				//pos_.y = obst.pos.y + obst.h / 2 + CHR_RENDER_SIZE.y / 2;
 		}
 	}
 	//画面外に出てないかチェック
