@@ -14,6 +14,7 @@ Player::Player()
 	SetCharaRect(PLAYER_RECT_SIZE);
 	moveDir_ = { 0, 0 };
 	isAlive_ = true;
+	isHit_ = false;
 }
 
 void Player::Initialize()
@@ -56,18 +57,19 @@ void Player::Update()
 	Vec2 tmp = pos_;
 	pos_ = pos_ + speed_ * Scene::DeltaTime() * moveDir_;
 	SetCharaRect(PLAYER_RECT_SIZE);
+	isHit_ = false;
+	//マップを一通り見るよ
 	for (auto j = 0; j < WORLD_CHIP_SIZE.y; j++)
 	{
 		for (auto i = 0; i < WORLD_CHIP_SIZE.x; i++){
 			if (CHR_MAP[j][i] == 1) {
-
-				Vec2 wPos{ i * CHR_RENDER_SIZE.x, j * CHR_RENDER_SIZE.y  };
+				Vec2 wPos{ i * CHR_RENDER_SIZE.x, j * CHR_RENDER_SIZE.y };
 				RectF obst{ wPos, CHR_RENDER_SIZE };
-
-				if (IsMyRectHit(obst))
+				if (this->IsMyRectHit(obst))
 				{
-					Print << U"HIT";
-					pos_ = tmp;
+					isHit_ = true;
+					//ぶつかったら、座標をぶつかる前に戻す
+					break;
 				}
 			}
 		}
@@ -98,5 +100,11 @@ void Player::Draw()
 		RectF renderRect = { CAMERA2D::GetScreenPosFromWorldPos(rect_.pos) , PLAYER_RECT_SIZE };
 		renderRect.drawFrame(1, 1, Palette::Red);
 	}
+
+	if (isHit_)
+	{
+		Circle{ 230, 170, 5 }.draw(Palette::Red);
+	}else
+		Circle{ 230, 170, 5 }.draw(Palette::White);
 }
 

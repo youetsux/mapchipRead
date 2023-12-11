@@ -20,6 +20,7 @@ class Player :
     public GameChara
 {
 	direction imgDir_;//画像の向き
+	bool isHit_;
 public:
 	Player();
 	~Player() {}//解放処理ここでやる？
