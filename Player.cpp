@@ -68,7 +68,7 @@ void Player::Update()
 				if (this->IsMyRectHit(obst))
 				{
 					isHit_ = true;
-					//ぶつかったら、座標をぶつかる前に戻す
+					pos_ = tmp;
 					break;
 				}
 			}
