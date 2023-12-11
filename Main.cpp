@@ -2,23 +2,10 @@
 #include <array>
 #include "Player.h"
 #include "camera2D.h"
+#include "Map.h"
 
-std::array< std::array<int, WORLD_CHIP_SIZE.x>, WORLD_CHIP_SIZE.y>
-CHR_MAP
-{ {
-	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-	{1,1,0,1,1,1,1,0,0,1,1,1,1,1,1,1},
-	{1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1},
-	{1,0,0,0,2,0,0,0,0,0,0,0,0,0,1,1},
-	{1,0,0,0,3,3,2,0,0,0,0,0,2,0,1,1},
-	{1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
-	{1,1,0,3,0,0,0,0,0,0,0,0,0,0,1,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
-	{1,0,0,2,0,0,0,0,0,0,0,0,3,0,1,1},
-	{1,0,0,0,0,0,0,1,1,0,0,0,2,0,0,1},
-	{1,0,2,0,0,2,0,1,1,2,0,0,0,0,1,1},
-	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-} };
+Map CHR_MAP;
+
 
 
 void Main()
@@ -46,27 +33,6 @@ void Main()
 	while (System::Update())
 	{
 		const double MoveSpeed = 256/10.0;
-		//using namespace CAMERA2D;
-		//if (KeyUp.pressed())
-		//{
-		//	//SetCameraPos({ SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2 });
-		//	CAMERA2D::SetCameraPos(CAMERA2D::cameraPos + MoveSpeed * Vec2{ 0, -1 }*Scene::DeltaTime());
-		//}
-		//if (KeyRight.pressed())
-		//{
-		//	//SetCameraPos({ SCREEN_SIZE.x + SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2 });
-		//	CAMERA2D::SetCameraPos(CAMERA2D::cameraPos + MoveSpeed * Vec2{ 1, 0 }*Scene::DeltaTime());
-		//}
-		//if (KeyLeft.pressed())
-		//{
-		//	//SetCameraPos({ SCREEN_SIZE.x / 2, SCREEN_SIZE.y +SCREEN_SIZE.y / 2 });
-		//	CAMERA2D::SetCameraPos(CAMERA2D::cameraPos + MoveSpeed * Vec2{ -1, 0 }*Scene::DeltaTime());
-		//}
-		//if (KeyDown.pressed())
-		//{
-		//	//SetCameraPos({ SCREEN_SIZE.x + SCREEN_SIZE.x / 2, SCREEN_SIZE.y + SCREEN_SIZE.y / 2 });
-		//	CAMERA2D::SetCameraPos(CAMERA2D::cameraPos + MoveSpeed * Vec2{ 0, 1 }*Scene::DeltaTime());
-		//}
 		
 
 		for (auto j = 0; j < WORLD_CHIP_SIZE.y; j++)
@@ -78,7 +44,7 @@ void Main()
 				//スクリーン座標に変換
 				Vec2 scrPos = CAMERA2D::GetScreenPosFromWorldPos(wPos);
 
-				mapchip(mapRects[CHR_MAP[j][i]]).draw(scrPos);
+				mapchip(mapRects[CHR_MAP.Get(i,j)]).draw(scrPos);
 			}
 		}
 		player->Update();

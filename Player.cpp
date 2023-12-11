@@ -2,8 +2,7 @@
 #include "Player.h"
 #include "camera2D.h"
 
-extern std::array< std::array<int, WORLD_CHIP_SIZE.x>, WORLD_CHIP_SIZE.y>
-CHR_MAP;
+extern Map CHR_MAP;
 
 Player::Player()
 	:GameChara()
@@ -62,7 +61,7 @@ void Player::Update()
 	for (auto j = 0; j < WORLD_CHIP_SIZE.y; j++)
 	{
 		for (auto i = 0; i < WORLD_CHIP_SIZE.x; i++){
-			if (CHR_MAP[j][i] == 1) {
+			if (CHR_MAP.Get(i,j) == 1) {
 				Vec2 wPos{ i * CHR_RENDER_SIZE.x, j * CHR_RENDER_SIZE.y };
 				RectF obst{ wPos, CHR_RENDER_SIZE };
 				if (this->IsMyRectHit(obst))
