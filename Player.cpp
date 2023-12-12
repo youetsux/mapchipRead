@@ -1,11 +1,14 @@
 ﻿#include "stdafx.h"
 #include "Player.h"
 #include "camera2D.h"
+#include "Map.h"
 
+
+namespace GLOBAL_SET {
+	extern Map CHR_MAP;
+}
 
 using namespace GLOBAL_SET;
-
-Map CHR_MAP;
 
 Player::Player()
 	:GameChara()

@@ -7,9 +7,6 @@
 
 namespace GLOBAL_SET {
 	Map CHR_MAP;
-	extern Size WORLD_CHIP_SIZE; //ちっぷがわーるどじょうにたてよこなんこずつならんでいるか
-	extern Size WORLD_SIZE;
-	extern Size CHR_RENDER_SIZE;
 }
 
 using namespace GLOBAL_SET;
