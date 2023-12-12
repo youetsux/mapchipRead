@@ -11,5 +11,7 @@ namespace GameSetting
 	extern Size WORLD_SIZE; //ワールドのサイズWxH(pix)
 	extern Size SCREEN_SIZE;//スクリーンサイズWxH(pix)
 	extern Map MAPDATA;
+
+	void InitializeGameData(std::string _fileName);
 };
 

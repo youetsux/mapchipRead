@@ -1,29 +1,16 @@
 ﻿#include "stdafx.h"
 #include "Map.h"
 #include <filesystem>
+#include <string>
 #include <fstream>
+#include <sstream>
 
 namespace fs = std::filesystem;
 using std::ifstream;
+using std::stringstream;
 
 Map::Map()
 {
-	mapArray = std::vector< std::vector<int>>
-	{ {
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,0,1,1,1,1,0,0,1,1,1,1,1,1,1},
-		{1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1},
-		{1,0,0,0,2,0,0,0,0,0,0,0,0,0,1,1},
-		{1,0,0,0,3,3,2,0,0,0,0,0,2,0,1,1},
-		{1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
-		{1,1,0,3,0,0,0,0,0,0,0,0,0,0,1,1},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
-		{1,0,0,2,0,0,0,0,0,0,0,0,3,0,1,1},
-		{1,0,0,0,0,0,0,1,1,0,0,0,2,0,0,1},
-		{1,0,2,0,0,2,0,1,1,2,0,0,0,0,1,1},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-	} };
-
 }
 
 Map::~Map()
@@ -44,6 +31,7 @@ void Map::Load(string _fileName)
 #if 1
 	Console.open();
 #endif
+	//読み込み
 	while (getline(ifs, tmp))
 	{
 		rData.push_back(tmp);
@@ -52,13 +40,40 @@ void Map::Load(string _fileName)
 	for (auto& theI : rData)
 		std::cout << theI << std::endl;
 #endif
+	//stringからintに直して配列に入れ直し
+	//取って入れて出す！
 	for (auto& theI : rData)
 	{
-		for (auto& n : theI)
+		stringstream oss(theI);
+		string tmp;
+		std::vector<int> vtmp;
+		while (std::getline(oss, tmp, ','))
 		{
-			if (n == ',')
-				n = ' ';
+			stringstream iss(tmp);
+			int n;
+			iss >> n;
+			vtmp.push_back(n);
 		}
+		mapArray.push_back(vtmp);
 	}
+	
+#if 1
+	for (auto& theI : mapArray) {
+		for (auto& n : theI)
+			std::cout << n << " ";
+		std::cout << std::endl;
+	}
+	Size s;
+	s.x = mapArray[0].size();
+	s.y = mapArray.size();
+	std::cout << "MAPSIZE:(" << s.x << ", " << s.y << ")" << std::endl;
+#endif
+}
 
+Size Map::GetMapSize()
+{
+	Size s;
+	s.x = mapArray[0].size();
+	s.y = mapArray.size();
+	return s;
 }

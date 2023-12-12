@@ -5,12 +5,11 @@
 
 using std::vector;
 
-
-
-const SizeF PLAYER_CHR_SIZE{ 32, 32 }; //がぞうさいず
-const SizeF PLAYER_RECT_SIZE{ 32, 32 }; //当たり判定用のBBのサイズ
-const double PLAYER_MOVE_SPEED{ PLAYER_CHR_SIZE.x * 4.5 }; //プレイヤーの動作スピード
-
+namespace {
+	const SizeF PLAYER_CHR_SIZE{ 32, 32 }; //がぞうさいず
+	const SizeF PLAYER_RECT_SIZE{ 32, 32 }; //当たり判定用のBBのサイズ
+	const double PLAYER_MOVE_SPEED{ PLAYER_CHR_SIZE.x * 4.5 }; //プレイヤーの動作スピード
+}
 
 enum direction
 {
@@ -22,6 +21,7 @@ class Player :
     public GameChara
 {
 	direction imgDir_;//画像の向き
+	bool IsHitStaticObjects();
 	bool isHit_;
 public:
 	Player();

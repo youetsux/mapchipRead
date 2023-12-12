@@ -9,7 +9,11 @@ namespace GS = GameSetting;
 
 void Main()
 {
+	GS::InitializeGameData("mapdata.csv");
+
 	TextureAsset::Register(U"PLAYER", U"SpaceShips\\C-10.png");
+
+
 	Window::Resize(GS::SCREEN_SIZE);
 	// 背景の色を設定する | Set the background color
 	Scene::SetBackground(ColorF{ 0.6, 0.8, 0.7 });
@@ -19,7 +23,7 @@ void Main()
 	Texture mapchip = TextureAsset(U"MAPCHIP");
 
 	
-	GameSetting::MAPDATA.Load("mapdata.csv");
+	//GameSetting::MAPDATA.Load("mapdata.csv");
 
 	std::array<RectF, 4> mapRects{
 		RectF(0 * GS::CHR_RENDER_SIZE.x,0 * GS::CHR_RENDER_SIZE.y,GS::CHR_RENDER_SIZE),

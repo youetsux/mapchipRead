@@ -45,6 +45,26 @@ direction Player::GetDirection()
 		return NONE;
 }
 
+
+bool Player::IsHitStaticObjects()
+{
+	//マップを一通り見るよ
+	for (auto j = 0; j < GS::WORLD_CHIP_SIZE.y; j++)
+	{
+		for (auto i = 0; i < GS::WORLD_CHIP_SIZE.x; i++) {
+			if (GS::MAPDATA.Get(i, j) == 1) {
+				Vec2 wPos{ i * GS::CHR_RENDER_SIZE.x, j * GS::CHR_RENDER_SIZE.y };
+				RectF obst{ wPos, GS::CHR_RENDER_SIZE };
+				if (this->IsMyRectHit(obst))
+				{
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
 void Player::Update()
 {   //寿命短い変数は名前も少し適当でいいよ
 	//UP,LEFT,DOWN,RIGHT,NONE
@@ -56,26 +76,16 @@ void Player::Update()
 
 	moveDir_ = mdir;
 	imgDir_ = d;
+
 	Vec2 tmp = pos_;
 	pos_ = pos_ + speed_ * Scene::DeltaTime() * moveDir_;
 	SetCharaRect(PLAYER_RECT_SIZE);
 	isHit_ = false;
-	//マップを一通り見るよ
-	for (auto j = 0; j < GS::WORLD_CHIP_SIZE.y; j++)
-	{
-		for (auto i = 0; i < GS::WORLD_CHIP_SIZE.x; i++){
-			if (GS::MAPDATA.Get(i,j) == 1) {
-				Vec2 wPos{ i * GS::CHR_RENDER_SIZE.x, j * GS::CHR_RENDER_SIZE.y };
-				RectF obst{ wPos, GS::CHR_RENDER_SIZE };
-				if (this->IsMyRectHit(obst))
-				{
-					isHit_ = true;
-					pos_ = tmp;
-					break;
-				}
-			}
-		}
-	}
+	
+	isHit_ = IsHitStaticObjects();//ヒットチェッカー関数
+	if (isHit_)
+		pos_ = tmp;//当たってたら戻す。
+
 	//画面外に出てないかチェック
 	if (pos_.x - GS::CHR_RENDER_SIZE.x / 2 <= 0)
 		pos_.x = GS::CHR_RENDER_SIZE.x / 2;
@@ -102,11 +112,16 @@ void Player::Draw()
 		RectF renderRect = { CAMERA2D::GetScreenPosFromWorldPos(rect_.pos) , PLAYER_RECT_SIZE };
 		renderRect.drawFrame(1, 1, Palette::Red);
 	}
-
-	if (isHit_)
-	{
-		Circle{ 230, 170, 5 }.draw(Palette::Red);
-	}else
-		Circle{ 230, 170, 5 }.draw(Palette::White);
+	//ヒット検知ランプ
+	//スクリーン座標でランプ位置を指定
+	Vec2 rampPos{ GS::SCREEN_SIZE.x - 50, GS::SCREEN_SIZE.y - 50 };
+	if (isHit_){
+		Circle{ rampPos, 5 }.drawFrame(1,1, Palette::Black);
+		Circle{ rampPos, 5 }.draw(Palette::Red);
+	}
+	else {
+		Circle{ rampPos, 5 }.drawFrame(1, 1, Palette::Black);
+		Circle{ rampPos, 5 }.draw(Palette::White);
+	}
 }
 
