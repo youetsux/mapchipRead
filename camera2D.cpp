@@ -1,5 +1,7 @@
 ﻿#include "camera2D.h"
 
+using namespace GLOBAL_SET;
+
 namespace CAMERA2D {
 	//カメラの中心位置（ワールド座標で指定）
 	Vec2 cameraPos{ SCREEN_SIZE.x / 2, SCREEN_SIZE.y / 2 };

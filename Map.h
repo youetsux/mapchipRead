@@ -4,7 +4,6 @@
 
 using std::string;
 using std::vector;
-constexpr Size WORLD_CHIP_SIZE{ 16,12 }; //ちっぷがわーるどじょうにたてよこなんこずつならんでいるか
 
 
 class Map

@@ -1,5 +1,10 @@
 ﻿#include "stdafx.h"
 #include "Map.h"
+#include <filesystem>
+#include <fstream>
+
+namespace fs = std::filesystem;
+using std::ifstream;
 
 Map::Map()
 {
@@ -27,4 +32,10 @@ Map::~Map()
 
 void Map::Load(string _fileName)
 {
+	//fs::path crrDir = fs::current_path();
+	ifstream ifs(_fileName);
+	if (ifs.fail())
+	{
+		System::MessageBoxOK(U"マップファイルが読めません");
+	}
 }

@@ -4,9 +4,15 @@
 #include "camera2D.h"
 #include "Map.h"
 
-Map CHR_MAP;
 
+namespace GLOBAL_SET {
+	Map CHR_MAP;
+	extern Size WORLD_CHIP_SIZE; //ちっぷがわーるどじょうにたてよこなんこずつならんでいるか
+	extern Size WORLD_SIZE;
+	extern Size CHR_RENDER_SIZE;
+}
 
+using namespace GLOBAL_SET;
 
 void Main()
 {
@@ -15,11 +21,12 @@ void Main()
 	// 背景の色を設定する | Set the background color
 	Scene::SetBackground(ColorF{ 0.6, 0.8, 0.7 });
 
-
-
 	TextureAsset::Register(U"MAPCHIP", U"bg.png");
 
 	Texture mapchip = TextureAsset(U"MAPCHIP");
+
+	
+	CHR_MAP.Load("mapdata.csv");
 
 	std::array<RectF, 4> mapRects{
 		RectF(0 * CHR_RENDER_SIZE.x,0 * CHR_RENDER_SIZE.y,CHR_RENDER_SIZE),
@@ -32,9 +39,8 @@ void Main()
 
 	while (System::Update())
 	{
-		const double MoveSpeed = 256/10.0;
+		//const double MoveSpeed = 256/10.0;
 		
-
 		for (auto j = 0; j < WORLD_CHIP_SIZE.y; j++)
 		{
 			for (auto i = 0; i < WORLD_CHIP_SIZE.x; i++)

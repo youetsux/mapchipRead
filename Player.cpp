@@ -2,7 +2,10 @@
 #include "Player.h"
 #include "camera2D.h"
 
-extern Map CHR_MAP;
+
+using namespace GLOBAL_SET;
+
+Map CHR_MAP;
 
 Player::Player()
 	:GameChara()
