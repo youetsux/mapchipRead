@@ -2,18 +2,15 @@
 #include "Player.h"
 #include "camera2D.h"
 #include "Map.h"
+#include "GameSetting.h"
 
+namespace GS = GameSetting;
 
-namespace GLOBAL_SET {
-	extern Map CHR_MAP;
-}
-
-using namespace GLOBAL_SET;
 
 Player::Player()
 	:GameChara()
 {
-	pos_ = SCREEN_SIZE/2;
+	pos_ = GS::SCREEN_SIZE/2;
 	speed_ = PLAYER_MOVE_SPEED;
 	tex_ = TextureAsset(U"PLAYER");
 	SetCharaRect(PLAYER_RECT_SIZE);
@@ -64,12 +61,12 @@ void Player::Update()
 	SetCharaRect(PLAYER_RECT_SIZE);
 	isHit_ = false;
 	//マップを一通り見るよ
-	for (auto j = 0; j < WORLD_CHIP_SIZE.y; j++)
+	for (auto j = 0; j < GS::WORLD_CHIP_SIZE.y; j++)
 	{
-		for (auto i = 0; i < WORLD_CHIP_SIZE.x; i++){
-			if (CHR_MAP.Get(i,j) == 1) {
-				Vec2 wPos{ i * CHR_RENDER_SIZE.x, j * CHR_RENDER_SIZE.y };
-				RectF obst{ wPos, CHR_RENDER_SIZE };
+		for (auto i = 0; i < GS::WORLD_CHIP_SIZE.x; i++){
+			if (GS::MAPDATA.Get(i,j) == 1) {
+				Vec2 wPos{ i * GS::CHR_RENDER_SIZE.x, j * GS::CHR_RENDER_SIZE.y };
+				RectF obst{ wPos, GS::CHR_RENDER_SIZE };
 				if (this->IsMyRectHit(obst))
 				{
 					isHit_ = true;
@@ -80,14 +77,14 @@ void Player::Update()
 		}
 	}
 	//画面外に出てないかチェック
-	if (pos_.x - CHR_RENDER_SIZE.x / 2 <= 0)
-		pos_.x = CHR_RENDER_SIZE.x / 2;
-	if (pos_.y - CHR_RENDER_SIZE.y / 2 <= 0)
-		pos_.y = CHR_RENDER_SIZE.y / 2;
-	if (pos_.x + CHR_RENDER_SIZE.x / 2 > WORLD_SIZE.x)
-		pos_.x = WORLD_SIZE.x - CHR_RENDER_SIZE.x / 2;
-	if (pos_.y + CHR_RENDER_SIZE.y / 2 > WORLD_SIZE.y)
-		pos_.y = WORLD_SIZE.y - CHR_RENDER_SIZE.y / 2;
+	if (pos_.x - GS::CHR_RENDER_SIZE.x / 2 <= 0)
+		pos_.x = GS::CHR_RENDER_SIZE.x / 2;
+	if (pos_.y - GS::CHR_RENDER_SIZE.y / 2 <= 0)
+		pos_.y = GS::CHR_RENDER_SIZE.y / 2;
+	if (pos_.x + GS::CHR_RENDER_SIZE.x / 2 > GS::WORLD_SIZE.x)
+		pos_.x = GS::WORLD_SIZE.x - GS::CHR_RENDER_SIZE.x / 2;
+	if (pos_.y + GS::CHR_RENDER_SIZE.y / 2 > GS::WORLD_SIZE.y)
+		pos_.y = GS::WORLD_SIZE.y - GS::CHR_RENDER_SIZE.y / 2;
 	SetCharaRect(PLAYER_RECT_SIZE);
 }
 
@@ -95,7 +92,7 @@ void Player::Draw()
 {
 	static double imgRot = 0;
 	double rotAngle[5]{ 180, 90, 0, -90, 0 };
-	Vec2 renderMargin{ CHR_RENDER_SIZE / 2 };
+	Vec2 renderMargin{ GS::CHR_RENDER_SIZE / 2 };
 	if (imgDir_ != NONE)
 		imgRot = rotAngle[imgDir_];
 

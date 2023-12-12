@@ -5,7 +5,7 @@
 using std::string;
 using std::vector;
 
-extern Size WORLD_CHIP_SIZE;
+
 
 class Map
 {

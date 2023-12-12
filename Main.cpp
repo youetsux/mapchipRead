@@ -3,18 +3,14 @@
 #include "Player.h"
 #include "camera2D.h"
 #include "Map.h"
+#include "GameSetting.h"
 
-
-namespace GLOBAL_SET {
-	Map CHR_MAP;
-}
-
-using namespace GLOBAL_SET;
+namespace GS = GameSetting;
 
 void Main()
 {
 	TextureAsset::Register(U"PLAYER", U"SpaceShips\\C-10.png");
-	Window::Resize(SCREEN_SIZE);
+	Window::Resize(GS::SCREEN_SIZE);
 	// 背景の色を設定する | Set the background color
 	Scene::SetBackground(ColorF{ 0.6, 0.8, 0.7 });
 
@@ -23,13 +19,13 @@ void Main()
 	Texture mapchip = TextureAsset(U"MAPCHIP");
 
 	
-	CHR_MAP.Load("mapdata.csv");
+	GameSetting::MAPDATA.Load("mapdata.csv");
 
 	std::array<RectF, 4> mapRects{
-		RectF(0 * CHR_RENDER_SIZE.x,0 * CHR_RENDER_SIZE.y,CHR_RENDER_SIZE),
-		RectF(6 * CHR_RENDER_SIZE.x,6 * CHR_RENDER_SIZE.y,CHR_RENDER_SIZE),
-		RectF(2 * CHR_RENDER_SIZE.x,6 * CHR_RENDER_SIZE.y,CHR_RENDER_SIZE),
-		RectF(7 * CHR_RENDER_SIZE.x,3 * CHR_RENDER_SIZE.y,CHR_RENDER_SIZE)
+		RectF(0 * GS::CHR_RENDER_SIZE.x,0 * GS::CHR_RENDER_SIZE.y,GS::CHR_RENDER_SIZE),
+		RectF(6 * GS::CHR_RENDER_SIZE.x,6 * GS::CHR_RENDER_SIZE.y,GS::CHR_RENDER_SIZE),
+		RectF(2 * GS::CHR_RENDER_SIZE.x,6 * GS::CHR_RENDER_SIZE.y,GS::CHR_RENDER_SIZE),
+		RectF(7 * GS::CHR_RENDER_SIZE.x,3 * GS::CHR_RENDER_SIZE.y,GS::CHR_RENDER_SIZE)
 	};
 
 	Player* player = new Player;
@@ -38,16 +34,16 @@ void Main()
 	{
 		//const double MoveSpeed = 256/10.0;
 		
-		for (auto j = 0; j < WORLD_CHIP_SIZE.y; j++)
+		for (auto j = 0; j < GS::WORLD_CHIP_SIZE.y; j++)
 		{
-			for (auto i = 0; i < WORLD_CHIP_SIZE.x; i++)
+			for (auto i = 0; i < GS::WORLD_CHIP_SIZE.x; i++)
 			{
 				//配列になってるオブジェクトのワールド座標
-				Vec2 wPos{ i * CHR_RENDER_SIZE.x, j * CHR_RENDER_SIZE.y };
+				Vec2 wPos{ i * GS::CHR_RENDER_SIZE.x, j * GS::CHR_RENDER_SIZE.y };
 				//スクリーン座標に変換
 				Vec2 scrPos = CAMERA2D::GetScreenPosFromWorldPos(wPos);
 
-				mapchip(mapRects[CHR_MAP.Get(i,j)]).draw(scrPos);
+				mapchip(mapRects[GS::MAPDATA.Get(i,j)]).draw(scrPos);
 			}
 		}
 		player->Update();
