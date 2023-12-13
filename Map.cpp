@@ -40,25 +40,6 @@ void Map::Load(string _fileName)
 		System::MessageBoxOK(U"マップファイルが読めません");
 		exit(1);
 	}
-	string tmp;
-#if 1
-	Console.open();
-#endif
-	while (getline(ifs, tmp))
-	{
-		rData.push_back(tmp);
-	}
-#if 0
-	for (auto& theI : rData)
-		std::cout << theI << std::endl;
-#endif
-	for (auto& theI : rData)
-	{
-		for (auto& n : theI)
-		{
-			if (n == ',')
-				n = ' ';
-		}
-	}
+	//ファイル読もう
 
 }
