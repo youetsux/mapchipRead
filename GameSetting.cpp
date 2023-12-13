@@ -18,3 +18,5 @@ void GameSetting::InitializeGameData(std::string _fileName)
 	WORLD_SIZE = { CHR_RENDER_SIZE.x * WORLD_CHIP_SIZE.x, CHR_RENDER_SIZE.y * WORLD_CHIP_SIZE.y };
 	SCREEN_SIZE = { WORLD_SIZE / 2 };
 }
+
+

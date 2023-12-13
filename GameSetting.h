@@ -6,6 +6,8 @@
 //ゲームのセッティングをつかさどるクラス
 namespace GameSetting
 {
+	extern enum direction;
+
 	extern Size WORLD_CHIP_SIZE; //ワールド上のチップ数WxH(個）
 	extern Size CHR_RENDER_SIZE; //キャラクタのレンダーサイズWxH(pix)
 	extern Size WORLD_SIZE; //ワールドのサイズWxH(pix)

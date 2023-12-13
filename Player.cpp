@@ -2,10 +2,7 @@
 #include "Player.h"
 #include "camera2D.h"
 #include "Map.h"
-#include "GameSetting.h"
-
-namespace GS = GameSetting;
-
+#include "Bullet.h"
 
 Player::Player()
 	:GameChara()
@@ -96,6 +93,17 @@ void Player::Update()
 	if (pos_.y + GS::CHR_RENDER_SIZE.y / 2 > GS::WORLD_SIZE.y)
 		pos_.y = GS::WORLD_SIZE.y - GS::CHR_RENDER_SIZE.y / 2;
 	SetCharaRect(PLAYER_RECT_SIZE);
+	if (KeySpace.down())
+	{
+		Bullet* p = new Bullet(U"PBULLET", {16,16});
+		p->SetMoveDir(moveDir_);
+		p->SetPosition(pos_);
+		bullets_.push_back(p);
+	}
+
+	for (auto& theI : bullets_)
+		theI->Update();
+
 }
 
 void Player::Draw()
@@ -112,6 +120,13 @@ void Player::Draw()
 		RectF renderRect = { CAMERA2D::GetScreenPosFromWorldPos(rect_.pos) , PLAYER_RECT_SIZE };
 		renderRect.drawFrame(1, 1, Palette::Red);
 	}
+
+	for (auto& theI : bullets_)
+	{
+		if(theI->isAlive_)
+			theI->Draw();
+	}
+		
 	//ヒット検知ランプ
 	//スクリーン座標でランプ位置を指定
 	Vec2 rampPos{ GS::SCREEN_SIZE.x - 50, GS::SCREEN_SIZE.y - 50 };

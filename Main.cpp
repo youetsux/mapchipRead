@@ -19,6 +19,7 @@ void Main()
 	Scene::SetBackground(ColorF{ 0.6, 0.8, 0.7 });
 
 	TextureAsset::Register(U"MAPCHIP", U"bg.png");
+	TextureAsset::Register(U"PBULLET", U"SpaceShips\\RedBullet.png");
 
 	Texture mapchip = TextureAsset(U"MAPCHIP");
 
@@ -54,6 +55,7 @@ void Main()
 		CAMERA2D::SetCameraPos(player->GetPosition());
 		CAMERA2D::UpdateCamera();
 		player->Draw();
+
 	}
 }
 

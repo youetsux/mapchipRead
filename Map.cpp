@@ -27,8 +27,9 @@ void Map::Load(string _fileName)
 		System::MessageBoxOK(U"マップファイルが読めません");
 		exit(1);
 	}
+
 	string tmp;
-#if 1
+#if 0
 	Console.open();
 #endif
 	//読み込み
@@ -40,34 +41,28 @@ void Map::Load(string _fileName)
 	for (auto& theI : rData)
 		std::cout << theI << std::endl;
 #endif
-	//stringからintに直して配列に入れ直し
-	//取って入れて出す！
-	for (auto& theI : rData)
+	for (int i = 0; i < rData.size(); i++)
 	{
-		stringstream oss(theI);
-		string tmp;
-		std::vector<int> vtmp;
-		while (std::getline(oss, tmp, ','))
+		stringstream oss(rData[i]);//1行をストリームとして流す
+		string tmp;//作業用変数 string->int変換用
+		std::vector<int> vtmp; //変換したintの値をひたすら入れる配列
+		//tmpはtemporary作業領域のことです
+		while (getline(oss, tmp, ','))
 		{
 			stringstream iss(tmp);
-			int n;
-			iss >> n;
-			vtmp.push_back(n);
+			int ntmp;//整数変換用tmp
+			iss >> ntmp;
+			vtmp.push_back(ntmp);
 		}
 		mapArray.push_back(vtmp);
 	}
-	
-#if 1
-	for (auto& theI : mapArray) {
-		for (auto& n : theI)
-			std::cout << n << " ";
-		std::cout << std::endl;
-	}
+#if 0
 	Size s;
 	s.x = mapArray[0].size();
 	s.y = mapArray.size();
 	std::cout << "MAPSIZE:(" << s.x << ", " << s.y << ")" << std::endl;
 #endif
+	ifs.close();
 }
 
 Size Map::GetMapSize()
