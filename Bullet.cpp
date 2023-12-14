@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Bullet.h"
 #include "camera2D.h"
+#include "GameSetting.h"
 
 
 
@@ -9,7 +10,6 @@ namespace {
 }
 
 
-extern enum direction;
 
 Bullet::Bullet(String _AssetName, SizeF _size)
 	:GameChara(),isHit_(false),assetName_(_AssetName),size_(_size)

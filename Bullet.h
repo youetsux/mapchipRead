@@ -15,6 +15,7 @@ class Bullet :
 	bool isHit_;
 	String assetName_;
 	SizeF size_;
+	double coolTime_;
 public:
 	Bullet(String _AssetName, SizeF _size);
 	~Bullet() {}//解放処理ここでやる？

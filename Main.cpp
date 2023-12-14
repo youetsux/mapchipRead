@@ -34,6 +34,7 @@ void Main()
 	};
 
 	Player* player = new Player;
+	player->Initialize();
 
 	while (System::Update())
 	{

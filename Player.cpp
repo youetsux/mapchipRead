@@ -4,6 +4,8 @@
 #include "Map.h"
 #include "Bullet.h"
 
+
+
 Player::Player()
 	:GameChara()
 {
@@ -14,10 +16,40 @@ Player::Player()
 	moveDir_ = { 0, 0 };
 	isAlive_ = true;
 	isHit_ = false;
+	coolTimer_ = nullptr;
+}
+
+Player::~Player()
+{
+	if (coolTimer_)
+		delete coolTimer_;
 }
 
 void Player::Initialize()
 {
+	coolTimer_ = new CDTimer(BULLET_COOL_TIME);
+	if (coolTimer_)
+		coolTimer_->StartTimer();
+	for(int i = 0; i < PLAYER_BULLET_NUM; i++) {
+		Bullet* p = new Bullet(BULLET_ASSET_NAME, BULLET_RENDER_SIZE);
+		p->SetMoveDir(moveDir_);
+		p->SetPosition(pos_);
+		p->DeActivateMe();
+		bullets_.push_back(p);
+	}
+
+}
+
+int Player::GetActiveBulle()
+{
+	for (int i=0;i<bullets_.size();i++)
+	{
+		if (bullets_[i]->isActive() == false)
+		{
+			return i;
+		}
+	}
+	return -1;
 }
 
 direction Player::GetDirection()
@@ -95,15 +127,19 @@ void Player::Update()
 	SetCharaRect(PLAYER_RECT_SIZE);
 	if (KeySpace.down())
 	{
-		Bullet* p = new Bullet(U"PBULLET", {16,16});
-		p->SetMoveDir(moveDir_);
-		p->SetPosition(pos_);
-		bullets_.push_back(p);
+		if (coolTimer_->IsTimeOver()) {
+			int n = GetActiveBulle();
+			if (n > 0) {
+				bullets_[n]->SetPosition(pos_);
+				bullets_[n]->ActivateMe();
+			}
+			coolTimer_->ResetTimer();
+		}
 	}
 
 	for (auto& theI : bullets_)
 		theI->Update();
-
+	coolTimer_->Update();
 }
 
 void Player::Draw()
