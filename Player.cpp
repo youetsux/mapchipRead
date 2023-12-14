@@ -5,7 +5,6 @@
 #include "Bullet.h"
 
 
-
 Player::Player()
 	:GameChara()
 {
@@ -37,6 +36,7 @@ void Player::Initialize()
 		p->SetPosition(pos_);
 		p->DeActivateMe();
 		bullets_.push_back(p);
+		GS::ObjList.push_front(p);
 	}
 
 }
@@ -92,7 +92,7 @@ bool Player::IsHitStaticObjects()
 	for (auto j = 0; j < GS::WORLD_CHIP_SIZE.y; j++)
 	{
 		for (auto i = 0; i < GS::WORLD_CHIP_SIZE.x; i++) {
-			if (GS::MAPDATA.Get(i, j) == 1) {
+			if (GS::MAPDATA->Get(i, j) == 1) {
 				Vec2 wPos{ i * GS::CHR_RENDER_SIZE.x, j * GS::CHR_RENDER_SIZE.y };
 				RectF obst{ wPos, GS::CHR_RENDER_SIZE };
 				if (this->IsMyRectHit(obst))
@@ -149,8 +149,8 @@ void Player::Update()
 		}
 	}
 
-	for (auto& theI : bullets_)
-		theI->Update();
+	//for (auto& theI : bullets_)
+	//	theI->Update();
 	coolTimer_->Update();
 }
 
@@ -169,11 +169,11 @@ void Player::Draw()
 		renderRect.drawFrame(1, 1, Palette::Red);
 	}
 
-	for (auto& theI : bullets_)
-	{
-		if(theI->isAlive_)
-			theI->Draw();
-	}
+	//for (auto& theI : bullets_)
+	//{
+	//	if(theI->isAlive_)
+	//		theI->Draw();
+	//}
 		
 	//ヒット検知ランプ
 	//スクリーン座標でランプ位置を指定

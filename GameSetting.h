@@ -14,7 +14,7 @@ namespace GameSetting
 	extern Size CHR_RENDER_SIZE; //キャラクタのレンダーサイズWxH(pix)
 	extern Size WORLD_SIZE; //ワールドのサイズWxH(pix)
 	extern Size SCREEN_SIZE;//スクリーンサイズWxH(pix)
-	extern Map MAPDATA;
+	extern Map *MAPDATA;
 	extern std::forward_list<GameChara*> ObjList;
 
 	void InitializeGameData(std::string _fileName);
