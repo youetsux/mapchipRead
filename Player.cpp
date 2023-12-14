@@ -75,9 +75,9 @@ direction Player::GetDirection()
 		return NONE;
 }
 
-std::array<bool, 5> Player::GetActiveBulletList()
+std::array<bool, PLAYER_BULLET_NUM> Player::GetActiveBulletList()
 {
-	std::array<bool, 5> tmp;
+	std::array<bool, PLAYER_BULLET_NUM> tmp;
 	for (int i = 0; i < bullets_.size(); i++)
 	{
 		tmp[i] = bullets_[i]->isActive();

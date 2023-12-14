@@ -36,7 +36,7 @@ class Player :
 	vector<Bullet*> bullets_;
 	CDTimer *coolTimer_;
 	int GetActiveBulle();
-	std::array<bool,5> aBullet_;
+	std::array<bool,PLAYER_BULLET_NUM> aBullet_;
 public:
 	Player();
 	~Player();//解放処理ここでやる？
