@@ -43,7 +43,7 @@ public:
 	void Initialize();
 	void Release();//それともここでやる？
 	direction GetDirection();
-	std::array<bool, 5> GetActiveBulletList();
+	std::array<bool, PLAYER_BULLET_NUM> GetActiveBulletList();
 	void Update() override;
 	void Draw() override;
 };

@@ -4,10 +4,17 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include "GameSetting.h"
+#include "camera2D.h"
 
 namespace fs = std::filesystem;
+namespace GS = GameSetting;
 using std::ifstream;
 using std::stringstream;
+
+
+
+
 
 Map::Map()
 {
@@ -71,4 +78,20 @@ Size Map::GetMapSize()
 	s.x = mapArray[0].size();
 	s.y = mapArray.size();
 	return s;
+}
+
+void Map::Draw()
+{
+	//for (auto j = 0; j < GS::WORLD_CHIP_SIZE.y; j++)
+	//{
+	//	for (auto i = 0; i < GS::WORLD_CHIP_SIZE.x; i++)
+	//	{
+	//		//配列になってるオブジェクトのワールド座標
+	//		Vec2 wPos{ i * GS::CHR_RENDER_SIZE.x, j * GS::CHR_RENDER_SIZE.y };
+	//		//スクリーン座標に変換
+	//		Vec2 scrPos = CAMERA2D::GetScreenPosFromWorldPos(wPos);
+
+	//		mapchip(mapRects[GS::MAPDATA.Get(i, j)]).draw(scrPos);
+	//	}
+	//}
 }
