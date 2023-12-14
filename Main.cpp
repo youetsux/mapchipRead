@@ -12,14 +12,15 @@ void Main()
 	GS::InitializeGameData("mapdata.csv");
 
 	TextureAsset::Register(U"PLAYER", U"SpaceShips\\C-10.png");
-
+	TextureAsset::Register(U"MAPCHIP", U"bg.png");
+	TextureAsset::Register(U"PBULLET", U"SpaceShips\\RedBullet.png");
+	TextureAsset::Register(U"EXPLOSION", U"explosion.png");
 
 	Window::Resize(GS::SCREEN_SIZE);
 	// 背景の色を設定する | Set the background color
 	Scene::SetBackground(ColorF{ 0.6, 0.8, 0.7 });
 
-	TextureAsset::Register(U"MAPCHIP", U"bg.png");
-	TextureAsset::Register(U"PBULLET", U"SpaceShips\\RedBullet.png");
+
 
 	Texture mapchip = TextureAsset(U"MAPCHIP");
 
