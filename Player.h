@@ -36,12 +36,14 @@ class Player :
 	vector<Bullet*> bullets_;
 	CDTimer *coolTimer_;
 	int GetActiveBulle();
+	std::array<bool,5> aBullet_;
 public:
 	Player();
 	~Player();//解放処理ここでやる？
 	void Initialize();
 	void Release();//それともここでやる？
 	direction GetDirection();
+	std::array<bool, 5> GetActiveBulletList();
 	void Update() override;
 	void Draw() override;
 };

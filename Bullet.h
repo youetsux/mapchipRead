@@ -16,6 +16,7 @@ class Bullet :
 	String assetName_;
 	SizeF size_;
 	double coolTime_;
+	RectF worldRect_;//世界座標の境界
 public:
 	Bullet(String _AssetName, SizeF _size);
 	~Bullet() {}//解放処理ここでやる？

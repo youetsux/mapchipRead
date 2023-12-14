@@ -20,6 +20,7 @@ Bullet::Bullet(String _AssetName, SizeF _size)
 	SetCharaRect(size_);
 	moveDir_ = { 0, 0 };
 	isAlive_ = true;
+	worldRect_ = (RectF)GameSetting::WORLD_SIZE;
 }
 
 void Bullet::Initialize()
@@ -37,6 +38,11 @@ void Bullet::Update()
 		pos_ = pos_ + speed_ * Scene::DeltaTime() * moveDir_;
 		SetCharaRect(size_);
 		isHit_ = false;
+		if (!rect_.intersects(worldRect_))
+		{
+			pos_ = { -10,-10 };
+			DeActivateMe();
+		}
 	}
 }
 

@@ -17,6 +17,7 @@ Player::Player()
 	isAlive_ = true;
 	isHit_ = false;
 	coolTimer_ = nullptr;
+	aBullet_ = {false, false, false, false};
 }
 
 Player::~Player()
@@ -74,6 +75,16 @@ direction Player::GetDirection()
 		return NONE;
 }
 
+std::array<bool, 5> Player::GetActiveBulletList()
+{
+	std::array<bool, 5> tmp;
+	for (int i = 0; i < bullets_.size(); i++)
+	{
+		tmp[i] = bullets_[i]->isActive();
+	}
+	return tmp;
+}
+
 
 bool Player::IsHitStaticObjects()
 {
@@ -129,8 +140,9 @@ void Player::Update()
 	{
 		if (coolTimer_->IsTimeOver()) {
 			int n = GetActiveBulle();
-			if (n > 0) {
+			if (n >= 0) {
 				bullets_[n]->SetPosition(pos_);
+				bullets_[n]->SetMoveDir(moveDir_);
 				bullets_[n]->ActivateMe();
 			}
 			coolTimer_->ResetTimer();
@@ -173,6 +185,18 @@ void Player::Draw()
 	else {
 		Circle{ rampPos, 5 }.drawFrame(1, 1, Palette::Black);
 		Circle{ rampPos, 5 }.draw(Palette::White);
+	}
+
+	rampPos = { GS::SCREEN_SIZE.x - 30, GS::SCREEN_SIZE.y - 210 };
+
+	for (int i = 0; i < PLAYER_BULLET_NUM; i++)
+	{
+		Vec2 rpos = rampPos + Vec2{0, 16 * i};
+		Circle{ rpos, 5 }.drawFrame(1, 1, Palette::Black);
+		if(GetActiveBulletList()[i])
+			Circle{ rpos, 5 }.draw(Palette::White);
+		else
+			Circle{ rpos, 5 }.draw(Palette::Blue);
 	}
 }
 
