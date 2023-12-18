@@ -14,6 +14,17 @@ namespace {
 	const double ANIME_INTERVAL{ 1 / 10.0 };
 }
 
+
+struct ANIMATIONDESC
+{
+	vector<RectF> frames_;
+	std::string assetName_;
+	SizeF renderSize_;
+	int maxFrame_;
+	double intervalTime_;
+	double animeDuration_;
+};
+
 class ExplosionEffect :
     public GameChara
 {
@@ -21,8 +32,10 @@ class ExplosionEffect :
 	CDTimer CDTimer_;
 	vector<RectF> frames_;
 public:
+	
 	ExplosionEffect(Vec2 _pos);
 	~ExplosionEffect(){}
+	void SetAnimationDesc(ANIMATIONDESC& _desc);
 	void Draw() override;
 	void Update() override;
 };
