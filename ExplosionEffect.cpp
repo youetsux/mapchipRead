@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "ExplosionEffect.h"
+#include "camera2D.h"
 
 ExplosionEffect::ExplosionEffect(Vec2 _pos)
 	:GameChara(_pos)
@@ -14,6 +15,7 @@ void ExplosionEffect::SetAnimationDesc(ANIMATIONDESC& _desc)
 	speed_ = 0;
 	String UassetName = Unicode::Widen(_desc.assetName_);
 	tex_ = TextureAsset(UassetName);
+	renderSize_ = _desc.renderSize_;
 	SetCharaRect(_desc.renderSize_);
 	moveDir_ = { 1, 0 };
 	isAlive_ = true;
@@ -22,7 +24,12 @@ void ExplosionEffect::SetAnimationDesc(ANIMATIONDESC& _desc)
 void ExplosionEffect::Draw()
 {
 	if (isAlive_) {
-		tex_(frames_[MAX_FRAME_]).resized(EXPLOSION_RECT_SIZE).drawAt(pos_);
+		//tex_(frames_[frameNum_]).resized(renderSize_).drawAt(pos_);
+
+		Vec2 renderPos = CAMERA2D::GetScreenPosFromWorldPos(pos_);
+		tex_(frames_[frameNum_]).resized(renderSize_).drawAt(renderPos);
+		RectF renderRect = { CAMERA2D::GetScreenPosFromWorldPos(rect_.pos) , renderSize_ };
+		//renderRect.drawFrame(1, 1, Palette::Red);
 		//rect_.drawFrame(1, 1, Palette::Red);
 	}
 }
@@ -34,7 +41,7 @@ void ExplosionEffect::Update()
 		{
 			if (frameNum_ >= MAX_FRAME_) {
 				frameNum_ = 0;
-				DeActivateMe();
+				//DeActivateMe();
 			}
 		}
 		CDTimer_.ResetTimer();

@@ -32,6 +32,7 @@ class ExplosionEffect :
 	int MAX_FRAME_;
 	CDTimer CDTimer_;
 	vector<RectF> frames_;
+	SizeF renderSize_;
 public:
 	
 	ExplosionEffect(Vec2 _pos);
