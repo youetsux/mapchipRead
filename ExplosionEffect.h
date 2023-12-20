@@ -28,7 +28,8 @@ struct ANIMATIONDESC
 class ExplosionEffect :
     public GameChara
 {
-	int frameNum;//今のアニメフレームは何フレーム目？
+	int frameNum_;//今のアニメフレームは何フレーム目？
+	int MAX_FRAME_;
 	CDTimer CDTimer_;
 	vector<RectF> frames_;
 public:
