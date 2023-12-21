@@ -10,7 +10,7 @@ namespace GS = GameSetting;
 namespace {
 	const double DEF_BULLET_SPEED{ 300 };
 	ANIMATIONDESC desc{
-		{{EXPLOSION_RECT_SIZE.x * 0,EXPLOSION_RECT_SIZE.y * 0,EXPLOSION_RECT_SIZE},
+			{{EXPLOSION_RECT_SIZE.x * 0,EXPLOSION_RECT_SIZE.y * 0,EXPLOSION_RECT_SIZE},
 			{EXPLOSION_RECT_SIZE.x * 1,EXPLOSION_RECT_SIZE.y * 0,EXPLOSION_RECT_SIZE},
 			{EXPLOSION_RECT_SIZE.x * 2,EXPLOSION_RECT_SIZE.y * 0,EXPLOSION_RECT_SIZE},
 			{EXPLOSION_RECT_SIZE.x * 0,EXPLOSION_RECT_SIZE.y * 1,EXPLOSION_RECT_SIZE},
@@ -22,8 +22,8 @@ namespace {
 		"EXPLOSION",
 		{32, 32},
 		 9,
-		2,
-		4.0
+		1/10.0,
+		1
 	};
 }
 
@@ -96,7 +96,7 @@ void Bullet::Draw()
 	if (isAlive_) {
 		Vec2 renderPos = CAMERA2D::GetScreenPosFromWorldPos(pos_);
 		tex_.resized(size_).rotated(0).drawAt(renderPos);
-		RectF renderRect = { CAMERA2D::GetScreenPosFromWorldPos(rect_.pos) , size_ };
-		renderRect.drawFrame(1, 1, Palette::Red);
+		//RectF renderRect = { CAMERA2D::GetScreenPosFromWorldPos(rect_.pos) , size_ };
+		//renderRect.drawFrame(1, 1, Palette::Red);
 	}
 }

@@ -165,8 +165,8 @@ void Player::Draw()
 	if (isAlive_) {
 		Vec2 renderPos = CAMERA2D::GetScreenPosFromWorldPos(pos_ - renderMargin);
 		tex_.resized(PLAYER_CHR_SIZE).rotated(ToRadians(imgRot)).draw(renderPos);
-		RectF renderRect = { CAMERA2D::GetScreenPosFromWorldPos(rect_.pos) , PLAYER_RECT_SIZE };
-		renderRect.drawFrame(1, 1, Palette::Red);
+		//RectF renderRect = { CAMERA2D::GetScreenPosFromWorldPos(rect_.pos) , PLAYER_RECT_SIZE };
+		//renderRect.drawFrame(1, 1, Palette::Red);
 	}
 
 	//for (auto& theI : bullets_)

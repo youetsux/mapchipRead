@@ -19,6 +19,8 @@ void ExplosionEffect::SetAnimationDesc(ANIMATIONDESC& _desc)
 	SetCharaRect(_desc.renderSize_);
 	moveDir_ = { 1, 0 };
 	isAlive_ = true;
+	CDTimer_ = new CDTimer(_desc.intervalTime_);
+	LifeTime_ = new CDTimer(_desc.animeDuration_);
 }
 
 void ExplosionEffect::Draw()
@@ -36,7 +38,7 @@ void ExplosionEffect::Draw()
 
 void ExplosionEffect::Update()
 {
-	if (CDTimer_.IsTimeOver()) {
+	if (CDTimer_->IsTimeOver()) {
 		frameNum_ = (frameNum_ + 1);
 		{
 			if (frameNum_ >= MAX_FRAME_) {
@@ -44,10 +46,17 @@ void ExplosionEffect::Update()
 				//DeActivateMe();
 			}
 		}
-		CDTimer_.ResetTimer();
+		CDTimer_->ResetTimer();
 	}
 	else
-		CDTimer_.Update();
+		CDTimer_->Update();
+
+	if (LifeTime_->IsTimeOver())
+	{
+		DeActivateMe();
+	}
+	else
+		LifeTime_->Update();
 }
 
 

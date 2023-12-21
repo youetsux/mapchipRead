@@ -6,7 +6,7 @@
 using std::vector;
 
 namespace {
-	const int EXPLOSION_CHR_SIZE{ 32 }; //がぞうさいず
+	const int EXPLOSION_CHR_SIZE{ 48 }; //がぞうさいず
 	const SizeF EXPLOSION_RECT_SIZE{ EXPLOSION_CHR_SIZE, EXPLOSION_CHR_SIZE }; //当たり判定用のBBのサイズ
 	const double EXPLOSION_MOVE_SPEED{ 0 }; //爆発エフェクトの動作スピード
 	const double EXPLOSION_EXPLODE_TIME{ 4.0 }; //爆発の持続時間
@@ -30,7 +30,8 @@ class ExplosionEffect :
 {
 	int frameNum_;//今のアニメフレームは何フレーム目？
 	int MAX_FRAME_;
-	CDTimer CDTimer_;
+	CDTimer* CDTimer_;
+	CDTimer* LifeTime_;
 	vector<RectF> frames_;
 	SizeF renderSize_;
 public:
