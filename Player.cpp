@@ -16,7 +16,7 @@ Player::Player()
 	isAlive_ = true;
 	isHit_ = false;
 	coolTimer_ = nullptr;
-	aBullet_ = {false, false, false, false};
+	aBullet_ = {false, false, false, false, false};
 }
 
 Player::~Player()
@@ -123,19 +123,26 @@ void Player::Update()
 	isHit_ = false;
 	
 	isHit_ = IsHitStaticObjects();//ヒットチェッカー関数
-	if (isHit_)
-		pos_ = tmp;//当たってたら戻す。
+	//if (isHit_)
+	//	pos_ = tmp;//当たってたら戻す。
 
+	Rect screenRect{ 0,0,GS::WORLD_SIZE };
+	if (isHit_ || !screenRect.intersects(rect_))
+	{
+		pos_ = tmp;
+		SetCharaRect(PLAYER_RECT_SIZE);
+	}
 	//画面外に出てないかチェック
-	if (pos_.x - GS::CHR_RENDER_SIZE.x / 2 <= 0)
-		pos_.x = GS::CHR_RENDER_SIZE.x / 2;
-	if (pos_.y - GS::CHR_RENDER_SIZE.y / 2 <= 0)
-		pos_.y = GS::CHR_RENDER_SIZE.y / 2;
-	if (pos_.x + GS::CHR_RENDER_SIZE.x / 2 > GS::WORLD_SIZE.x)
-		pos_.x = GS::WORLD_SIZE.x - GS::CHR_RENDER_SIZE.x / 2;
-	if (pos_.y + GS::CHR_RENDER_SIZE.y / 2 > GS::WORLD_SIZE.y)
-		pos_.y = GS::WORLD_SIZE.y - GS::CHR_RENDER_SIZE.y / 2;
-	SetCharaRect(PLAYER_RECT_SIZE);
+	//if (pos_.x - GS::CHR_RENDER_SIZE.x / 2 <= 0)
+	//	pos_.x = GS::CHR_RENDER_SIZE.x / 2;
+	//if (pos_.y - GS::CHR_RENDER_SIZE.y / 2 <= 0)
+	//	pos_.y = GS::CHR_RENDER_SIZE.y / 2;
+	//if (pos_.x + GS::CHR_RENDER_SIZE.x / 2 > GS::WORLD_SIZE.x)
+	//	pos_.x = GS::WORLD_SIZE.x - GS::CHR_RENDER_SIZE.x / 2;
+	//if (pos_.y + GS::CHR_RENDER_SIZE.y / 2 > GS::WORLD_SIZE.y)
+	//	pos_.y = GS::WORLD_SIZE.y - GS::CHR_RENDER_SIZE.y / 2;
+
+
 	if (KeySpace.down())
 	{
 		if (coolTimer_->IsTimeOver()) {

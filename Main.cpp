@@ -69,8 +69,6 @@ void Main()
 		{
 			theI->Draw();
 		}
-
-
 	}
 }
 
