@@ -55,7 +55,7 @@ void Main()
 				mapchip(mapRects[GS::MAPDATA->Get(i, j)]).draw(scrPos);
 			}
 		}
-
+		
 		for (auto& theI : GS::ObjList)
 		{
 			theI->Update();

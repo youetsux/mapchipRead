@@ -8,7 +8,7 @@ class GameChara;
 //ゲームのセッティングをつかさどるクラス
 namespace GameSetting
 {
-	extern enum direction;
+	//enum direction;
 
 	extern Size WORLD_CHIP_SIZE; //ワールド上のチップ数WxH(個）
 	extern Size CHR_RENDER_SIZE; //キャラクタのレンダーサイズWxH(pix)

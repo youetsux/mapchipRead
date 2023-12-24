@@ -14,7 +14,7 @@ public:
 public:
 	GameChara(Vec2 _pos);  //コンストラクタのオーバーロード
 	GameChara();
-	~GameChara(){}
+	virtual ~GameChara(){}
 
 	void SetAlive(bool _alive) { isAlive_ = _alive; }
 	void SetSpeed(double _speed) { speed_ = _speed; }
