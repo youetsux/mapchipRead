@@ -15,8 +15,12 @@ namespace GameSetting
 	extern Size WORLD_SIZE; //ワールドのサイズWxH(pix)
 	extern Size SCREEN_SIZE;//スクリーンサイズWxH(pix)
 	extern Map *MAPDATA;
-	extern std::forward_list<GameChara*> ObjList;
-
+	extern std::vector<GameChara*> ObjList;
+	extern std::vector<GameChara*> AddObjList;
+	extern std::vector<GameChara*> delObjList;
+	extern void AddUpdateList(GameChara* _obj);
+	extern bool LIST_UPDATE_FLAG;
+	extern void EraseObjects();
 	void InitializeGameData(std::string _fileName);
 };
 

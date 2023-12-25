@@ -37,7 +37,9 @@ class ExplosionEffect :
 public:
 	
 	ExplosionEffect(Vec2 _pos);
-	~ExplosionEffect(){}
+	~ExplosionEffect() {
+ 		delete CDTimer_; delete LifeTime_;
+	}
 	void SetAnimationDesc(ANIMATIONDESC& _desc);
 	void Draw() override;
 	void Update() override;

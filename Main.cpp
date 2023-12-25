@@ -38,8 +38,8 @@ void Main()
 	
 	Player* player = new Player;
 	player->Initialize();
-	GS::ObjList.push_front(player);
-
+	GS::ObjList.push_back(player);
+	Console.open();
 	while (System::Update())
 	{
 		//const double MoveSpeed = 256/10.0;
@@ -55,8 +55,15 @@ void Main()
 				mapchip(mapRects[GS::MAPDATA->Get(i, j)]).draw(scrPos);
 			}
 		}
+
+		if (GS::LIST_UPDATE_FLAG)
+		{
+			for (int i=0;i< GS::AddObjList.size(); i++)
+				GS::ObjList.push_back( GS::AddObjList[i] );
+			GS::LIST_UPDATE_FLAG = false;
+		}
 		
-		for (auto& theI : GS::ObjList)
+		for (auto&& theI : GS::ObjList)
 		{
 			theI->Update();
 		}
@@ -69,6 +76,26 @@ void Main()
 		{
 			theI->Draw();
 		}
+	
+		GS::EraseObjects();
+
+		
+
+		if (!GS::delObjList.empty())
+		{
+
+			std::erase(GS::delObjList, )
+			//std::cout << "BEFOR : " <<std::endl;
+/*			for (int i = 0; i < GS::delObjList.size(); i++)
+			{
+				delete GS::delObjList[i];
+
+			}		*/		//std::cout << GS::delObjList[i] << std::endl;
+				//std::cout << &(GS::delObjList[i]) << std::endl;
+			//std::cout << "AFTER : " << std::endl;
+			GS::delObjList.clear();
+		}
+
 	}
 }
 

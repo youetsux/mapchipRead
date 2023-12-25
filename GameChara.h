@@ -10,6 +10,7 @@ public:
 	double speed_; //移動スピード
 	RectF rect_;   //バウンディングボックス
 	Vec2 moveDir_; //移動方向
+	bool isErasable;//消していいかどうか
 
 public:
 	GameChara(Vec2 _pos);  //コンストラクタのオーバーロード
@@ -27,6 +28,8 @@ public:
 	void DeActivateMe() { isAlive_ = false; }
 	void ActivateMe() { isAlive_ = true; }
 	bool IsMyRectHit(RectF _rect);
+	void EraseMe() { isErasable = true; }
+	bool IsEraseMe() { return(isErasable); }
 	virtual void Update();
 	virtual void Draw();
 };

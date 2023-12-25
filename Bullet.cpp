@@ -84,10 +84,9 @@ void Bullet::Update()
 			DeActivateMe();
 			ExplosionEffect* p = new ExplosionEffect(pos_);
 			p->SetAnimationDesc(desc);
-			GS::ObjList.push_front(p);
+			//GS::ObjList.push_front(p);
+			GS::AddUpdateList(p);
 		}
-			
-
 	}
 }
 

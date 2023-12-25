@@ -26,8 +26,6 @@ void ExplosionEffect::SetAnimationDesc(ANIMATIONDESC& _desc)
 void ExplosionEffect::Draw()
 {
 	if (isAlive_) {
-		//tex_(frames_[frameNum_]).resized(renderSize_).drawAt(pos_);
-
 		Vec2 renderPos = CAMERA2D::GetScreenPosFromWorldPos(pos_);
 		tex_(frames_[frameNum_]).resized(renderSize_).drawAt(renderPos);
 		RectF renderRect = { CAMERA2D::GetScreenPosFromWorldPos(rect_.pos) , renderSize_ };
@@ -38,25 +36,28 @@ void ExplosionEffect::Draw()
 
 void ExplosionEffect::Update()
 {
-	if (CDTimer_->IsTimeOver()) {
-		frameNum_ = (frameNum_ + 1);
-		{
-			if (frameNum_ >= MAX_FRAME_) {
-				frameNum_ = 0;
-				//DeActivateMe();
+	if (isActive()) {
+		if (CDTimer_->IsTimeOver()) {
+			frameNum_ = (frameNum_ + 1);
+			{
+				if (frameNum_ >= MAX_FRAME_) {
+					frameNum_ = 0;
+					//DeActivateMe();
+				}
 			}
+			CDTimer_->ResetTimer();
 		}
-		CDTimer_->ResetTimer();
-	}
-	else
-		CDTimer_->Update();
+		else
+			CDTimer_->Update();
 
-	if (LifeTime_->IsTimeOver())
-	{
-		DeActivateMe();
+		if (LifeTime_->IsTimeOver())
+		{
+			DeActivateMe();
+			EraseMe();
+		}
+		else
+			LifeTime_->Update();
 	}
-	else
-		LifeTime_->Update();
 }
 
 

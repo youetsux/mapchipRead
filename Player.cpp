@@ -36,7 +36,7 @@ void Player::Initialize()
 		p->SetPosition(pos_);
 		p->DeActivateMe();
 		bullets_.push_back(p);
-		GS::ObjList.push_front(p);
+		GS::ObjList.push_back(p);
 	}
 
 }
