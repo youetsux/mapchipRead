@@ -60,6 +60,7 @@ void Main()
 		{
 			for (int i=0;i< GS::AddObjList.size(); i++)
 				GS::ObjList.push_back( GS::AddObjList[i] );
+			GS::AddObjList.clear();
 			GS::LIST_UPDATE_FLAG = false;
 		}
 		
@@ -78,21 +79,16 @@ void Main()
 		}
 	
 		GS::EraseObjects();
-
-		
-
 		if (!GS::delObjList.empty())
 		{
-
-			std::erase(GS::delObjList, )
-			//std::cout << "BEFOR : " <<std::endl;
-/*			for (int i = 0; i < GS::delObjList.size(); i++)
-			{
-				delete GS::delObjList[i];
-
-			}		*/		//std::cout << GS::delObjList[i] << std::endl;
-				//std::cout << &(GS::delObjList[i]) << std::endl;
-			//std::cout << "AFTER : " << std::endl;
+			for (auto&& theI = GS::delObjList.begin(); theI != GS::delObjList.end();) {
+				if (*theI != nullptr) {
+					delete *theI;
+					theI = GS::delObjList.erase(theI);
+				}
+				else
+					theI++;
+			}
 			GS::delObjList.clear();
 		}
 
